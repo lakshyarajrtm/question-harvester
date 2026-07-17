@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Question Harvester</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div id="updateBanner" class="update-banner" hidden>
+    <span>A new version is ready.</span>
+    <button id="applyUpdate" type="button">Update now</button>
+  </div>
+  <main>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">QUESTION BANK BUILDER</p>
+        <h1>Turn permitted web content into a clean CSV question bank.</h1>
+        <p class="lede">Add public URLs or paste text, review the extracted MCQs and coding problems, and export them in the required nine-column format.</p>
+      </div>
+      <div class="stat"><strong id="questionCount">0</strong><span>questions ready</span></div>
+    </header>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div><span>01</span><h2>Add sources</h2></div>
+        <button id="addSource" class="secondary">+ Add source</button>
+      </div>
+      <p class="notice">Use only content you’re allowed to access and reuse. This app does not bypass logins, CAPTCHAs, paywalls, or site restrictions.</p>
+      <div class="catalog-card">
+        <div class="catalog-heading">
+          <div><strong>Built-in zero-cost catalogs</strong><small>No scraping, payment, account, or API key required</small></div>
+          <span class="recommended">Recommended</span>
+        </div>
+        <div class="catalog-grid">
+          <label>Provider<select id="catalogProvider"><option value="mmlu" selected>MMLU Academic CS</option><option value="opentdb">Open Trivia DB</option></select></label>
+          <label>Subject<select id="catalogCategory">
+            <option value="computer_science" selected>Computer Science</option><option value="programming_fundamentals">Programming Fundamentals</option><option value="networking">Networking</option><option value="operating_systems">Operating Systems</option><option value="dbms">DBMS</option><option value="data_structures">Data Structures</option><option value="algorithms">Algorithms</option><option value="object_oriented_programming">Object-Oriented Programming</option><option value="computer_architecture">Computer Architecture</option><option value="cybersecurity">Cybersecurity</option><option value="ai_machine_learning">AI &amp; Machine Learning</option><option value="software_engineering">Software Engineering</option><option value="theory_of_computation">Theory of Computation</option><option value="compiler_design">Compiler Design</option><option value="mathematics">Mathematics</option><option value="analytical_reasoning">Analytical Reasoning</option>
+          </select></label>
+          <label>Difficulty<select id="catalogDifficulty"><option value="easy">Easy</option><option value="medium" selected>Medium</option><option value="hard">Hard</option></select></label>
+          <label>Questions<input id="catalogAmount" type="number" min="1" max="50" value="10"></label>
+          <label>Marks each<input id="catalogMarks" type="number" min="0" max="100" value="1"></label>
+          <button id="importCatalog" class="primary" type="button">Get MCQs</button>
+        </div>
+        <p id="catalogLicense" class="catalog-license">Academic questions are supplied by <a href="https://huggingface.co/datasets/cais/mmlu" target="_blank" rel="noopener">MMLU</a> under the MIT License. MMLU has no difficulty metadata; your selected difficulty label is applied to the imported rows.</p>
+      </div>
+      <div class="divider"><span>OR USE YOUR OWN SOURCE</span></div>
+      <div id="sources"></div>
+      <button id="extract" class="primary">Extract questions</button>
+      <div id="status" role="status"></div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading"><div><span>02</span><h2>Review and edit</h2></div><button id="addQuestion" class="secondary">+ Blank question</button></div>
+      <div id="questions" class="empty">Extract a source or add a blank question to begin.</div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading"><div><span>03</span><h2>CSV format</h2></div></div>
+      <p class="muted">The export always uses these required columns, in this exact order.</p>
+      <div id="columns" class="columns"></div>
+      <button id="export" class="primary">Download CSV</button>
+    </section>
+  </main>
+  <template id="sourceTemplate">
+    <div class="source-row">
+      <select class="source-mode" aria-label="Source mode"><option value="url">Public URL</option><option value="text">Pasted text / JSON</option></select>
+      <select class="source-type" aria-label="Question type"><option value="auto">Auto detect</option><option value="MCQ">MCQ</option><option value="Coding">Coding</option></select>
+      <textarea class="source-value" rows="2" placeholder="https://example.com/questions"></textarea>
+      <div class="source-actions">
+        <button class="secondary open-page" type="button">Open page</button>
+        <button class="secondary paste-text" type="button">Paste copied text</button>
+        <button class="secondary load-file" type="button">Load file</button>
+      </div>
+      <input class="source-file" type="file" accept=".html,.htm,.txt,.json,text/html,text/plain,application/json" hidden>
+      <button class="icon remove-source" title="Remove source">×</button>
+    </div>
+  </template>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

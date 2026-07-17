@@ -1,0 +1,6 @@
+.DS_Store
+.gh-config/
+.tools/
+node_modules
+outputs/
+work/
